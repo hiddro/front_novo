@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <mat-card>
+        <mat-card-content>
+          <form>
+            <mat-stepper orientation="vertical">
+              <mat-step [stepControl]="firstFormGroup">
+                <form [formGroup]="firstFormGroup">
+                  <ng-template matStepLabel>Ingrese su nombre</ng-template>
+                  <mat-form-field>
+                    <mat-label>Nombre</mat-label>
+                    <input matInput name="firstCtrl" placeholder="Primer nombre" formControlName="firstCtrl" required>
+                  </mat-form-field>
+                  <!-- <div>
+                    <button mat-button matStepperNext>Next</button>
+                  </div> -->
+                </form>
+              </mat-step>
+              <mat-step [stepControl]="secondFormGroup">
+                <form [formGroup]="secondFormGroup">
+                  <ng-template matStepLabel>Ingrese su código</ng-template>
+                  <mat-form-field>
+                    <mat-label>Código</mat-label>
+                    <input matInput name="secondCtrl" formControlName="secondCtrl" placeholder="4 Dígitos"
+                           required>
+                  </mat-form-field>
+                  <!-- <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button>
+                  </div> -->
+                </form>
+              </mat-step>
+              <mat-step>
+                <ng-template matStepLabel>Listo</ng-template>
+                <p>Todo conforme, se cárgara NoVo ...</p>
+                <!-- <div>
+                  <button mat-button matStepperPrevious>Back</button>
+                  <button mat-button (click)="stepper.reset()">Reset</button>
+                </div> -->
+              </mat-step>
+            </mat-stepper>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
