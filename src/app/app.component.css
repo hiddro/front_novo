@@ -51,6 +51,14 @@ section {
   height: 50vh;
 }
 
+.alignItems{
+  align-items: center;
+}
+
+.displayBlock{
+  display: block;
+}
+
 .card {
   width: 400px;
 }

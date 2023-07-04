@@ -12,12 +12,19 @@ declare let webkitSpeechRecognition: any;
 export class AppComponent implements OnInit {
   recognition: any;
   @ViewChild(MatStepper) stepper!: MatStepper;
+  sToken!: boolean;
+  sLoader!: boolean;
+  sMessage!: boolean;
 
   firstFormGroup = this._formBuilder.group({
     firstCtrl: ['', Validators.required],
   });
   secondFormGroup = this._formBuilder.group({
     secondCtrl: ['', Validators.required],
+  });
+
+  thirdFormGroup = this._formBuilder.group({
+    thirdCtrl: ['', Validators.required],
   });
 
   constructor(private _formBuilder: FormBuilder,
@@ -29,7 +36,9 @@ export class AppComponent implements OnInit {
     this.recognition.continuous = true;
     this.recognition.lang = 'es-ES';
     this.recognition.interimResult = false;
-
+    this.sToken = false;
+    this.sLoader = false;
+    this.sMessage = false;
     this.onStart();
   }
 
@@ -49,21 +58,32 @@ export class AppComponent implements OnInit {
 
     this.recognition.onresult = (event: any) => {
       let texto = event.results[event.results.length - 1][0].transcript;
-      if(texto.trim().toLowerCase() === "siguiente" || texto.trim().toLowerCase() === "vuelve"){
-        this.stepper.next();
+
+      if(this.sToken == false){
+        if(texto.trim().toLowerCase() === "siguiente" || texto.trim().toLowerCase() === "vuelve"){
+          this.stepper.next();
+          this.changeDetectorRef.detectChanges();
+          return;
+        }else if(texto.trim().toLowerCase() === "listo"){
+          this.sToken = true;
+          this.sLoader = true;
+          this.loadComponents();
+        }
+
+        let sData1 = this.firstFormGroup.get('firstCtrl')?.value;
+        let sData2 = this.secondFormGroup.get('secondCtrl')?.value;
+
+        if(sData1 === ''){
+          this.firstFormGroup.get('firstCtrl')?.setValue(texto.trim());
+        }else if(sData1 !== '' && sData2 === ''){
+          this.secondFormGroup.get('secondCtrl')?.setValue(texto.trim());
+        }
+
         this.changeDetectorRef.detectChanges();
-        return;
-      }
-
-      let sData = this.firstFormGroup.get('firstCtrl')?.value;
-
-      if(sData === ''){
-        this.firstFormGroup.get('firstCtrl')?.setValue(texto.trim());
       }else{
-        this.secondFormGroup.get('secondCtrl')?.setValue(texto.trim());
+        this.thirdFormGroup.get('thirdCtrl')?.setValue(texto.trim());
+        this.changeDetectorRef.detectChanges();
       }
-
-      this.changeDetectorRef.detectChanges();
 
     }
   }
@@ -72,11 +92,11 @@ export class AppComponent implements OnInit {
     this.recognition.abort();
   }
 
-  /* loadCharge() {
-    this.flagChargeSpinner = true;
+  loadComponents() {
     setTimeout(() => {
-      this.flagChargeSpinner = false;
-      this.flagChargeTextArea = true;
+      this.sLoader = false;
+      this.sMessage = true;
+      this.changeDetectorRef.detectChanges();
     }, 2000);
-  } */
+  }
 }

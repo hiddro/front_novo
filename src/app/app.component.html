@@ -33,7 +33,7 @@
               </mat-step>
               <mat-step>
                 <ng-template matStepLabel>Listo</ng-template>
-                <p>Todo conforme, se cárgara NoVo ...</p>
+                <p>Todo conforme, se cárgara NoVo ...[Listo]</p>
                 <!-- <div>
                   <button mat-button matStepperPrevious>Back</button>
                   <button mat-button (click)="stepper.reset()">Reset</button>
@@ -43,6 +43,26 @@
           </form>
         </mat-card-content>
       </mat-card>
+    </div>
+    <div class="col-md-6" *ngIf="sLoader">
+      <mat-card [class]="['alignItems']">
+        <mat-card-content>
+          <mat-spinner></mat-spinner>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div *ngIf="sMessage">
+      <mat-card>
+        <mat-card-content>
+          <form [formGroup]="thirdFormGroup">
+            <mat-form-field [class]="['displayBlock']">
+              <mat-label>Notas</mat-label>
+              <textarea matInput name="thirdCtrl" placeholder="Notas" formControlName="thirdCtrl" required></textarea>
+            </mat-form-field>
+          </form>
+        </mat-card-content>
+      </mat-card>
+
     </div>
   </div>
 </div>
