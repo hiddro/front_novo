@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 declare let webkitSpeechRecognition: any;
 
@@ -15,6 +16,7 @@ export class AppComponent implements OnInit {
   sToken!: boolean;
   sLoader!: boolean;
   sMessage!: boolean;
+  title!: 'webNoVo';
 
   firstFormGroup = this._formBuilder.group({
     firstCtrl: ['', Validators.required],
@@ -28,7 +30,8 @@ export class AppComponent implements OnInit {
   });
 
   constructor(private _formBuilder: FormBuilder,
-    private changeDetectorRef: ChangeDetectorRef) {
+    private changeDetectorRef: ChangeDetectorRef,
+    private http: HttpClient) {
   }
 
   ngOnInit(): void {
@@ -54,7 +57,6 @@ export class AppComponent implements OnInit {
 
   onStart() {
     this.recognition.start();
-    /* this.loadCharge(); */
 
     this.recognition.onresult = (event: any) => {
       let texto = event.results[event.results.length - 1][0].transcript;
@@ -81,11 +83,48 @@ export class AppComponent implements OnInit {
 
         this.changeDetectorRef.detectChanges();
       }else{
+        if(texto.trim().toLowerCase() === "envía"){
+          this.onSendMessage();
+          return;
+        }
+
         this.thirdFormGroup.get('thirdCtrl')?.setValue(texto.trim());
         this.changeDetectorRef.detectChanges();
       }
 
     }
+  }
+
+  onSendMessage(){
+    const twilioUrl = 'https://api.twilio.com/2010-04-01/Accounts/{ACCOUNT_SID}/Messages.json';
+    const accountSid = 'AC956dcee1d224d58aed323b28a0bfeb9d';
+    const authToken = 'fab727825843956d766bc97765e8b2f7';
+
+    const headers = new HttpHeaders()
+      .set('Authorization', 'Basic ' + btoa(`${accountSid}:${authToken}`))
+      .set('Content-Type', 'application/x-www-form-urlencoded');
+
+    const sName = this.firstFormGroup.get('firstCtrl')?.value;
+    const sCode = this.secondFormGroup.get('secondCtrl')?.value;
+    const sBody = this.thirdFormGroup.get('thirdCtrl')?.value;
+
+    const messageData = {
+      From: 'whatsapp:+14155238886',
+      Body: 'Usuario ' + `${sName}` + ' con código ' + `${sCode}` + ' ha generado la siguiente nota mediante NoVo: ' + `${sBody}`,
+      To: 'whatsapp:+51983478763'
+    };
+
+    const body = new URLSearchParams(messageData).toString();
+
+    this.http.post(twilioUrl.replace('{ACCOUNT_SID}', accountSid), body, { headers })
+      .subscribe({
+        next: response => {
+          console.log(response);
+        },
+        error: error => {
+          console.error(error);
+        }
+      });
   }
 
   onFinish() {

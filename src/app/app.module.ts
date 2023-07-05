@@ -11,6 +11,7 @@ import { MatCardModule } from '@angular/material/card';
 import {MatStepperModule} from '@angular/material/stepper';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     MatStepperModule,
     FormsModule,
     ReactiveFormsModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

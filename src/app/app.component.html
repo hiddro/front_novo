@@ -12,9 +12,6 @@
                     <mat-label>Nombre</mat-label>
                     <input matInput name="firstCtrl" placeholder="Primer nombre" formControlName="firstCtrl" required>
                   </mat-form-field>
-                  <!-- <div>
-                    <button mat-button matStepperNext>Next</button>
-                  </div> -->
                 </form>
               </mat-step>
               <mat-step [stepControl]="secondFormGroup">
@@ -25,19 +22,11 @@
                     <input matInput name="secondCtrl" formControlName="secondCtrl" placeholder="4 Dígitos"
                            required>
                   </mat-form-field>
-                  <!-- <div>
-                    <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button matStepperNext>Next</button>
-                  </div> -->
                 </form>
               </mat-step>
               <mat-step>
                 <ng-template matStepLabel>Listo</ng-template>
                 <p>Todo conforme, se cárgara NoVo ...[Listo]</p>
-                <!-- <div>
-                  <button mat-button matStepperPrevious>Back</button>
-                  <button mat-button (click)="stepper.reset()">Reset</button>
-                </div> -->
               </mat-step>
             </mat-stepper>
           </form>
