@@ -98,7 +98,7 @@ export class AppComponent implements OnInit {
   onSendMessage(){
     const twilioUrl = 'https://api.twilio.com/2010-04-01/Accounts/{ACCOUNT_SID}/Messages.json';
     const accountSid = 'AC956dcee1d224d58aed323b28a0bfeb9d';
-    const authToken = 'fab727825843956d766bc97765e8b2f7';
+    const authToken = 'e0a3e639e580e30f7d60aaac3666abdf';
 
     const headers = new HttpHeaders()
       .set('Authorization', 'Basic ' + btoa(`${accountSid}:${authToken}`))
