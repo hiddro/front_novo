@@ -16,7 +16,6 @@ export class AppComponent implements OnInit {
   sToken!: boolean;
   sLoader!: boolean;
   sMessage!: boolean;
-  title!: 'webNoVo';
 
   firstFormGroup = this._formBuilder.group({
     firstCtrl: ['', Validators.required],
