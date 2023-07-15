@@ -87,11 +87,16 @@ export class AppComponent implements OnInit {
           return;
         }
 
-        this.thirdFormGroup.get('thirdCtrl')?.setValue(texto.trim());
+        this.thirdFormGroup.get('thirdCtrl')?.setValue(this.onCompleteTextArea("- " + texto.trim())!);
         this.changeDetectorRef.detectChanges();
       }
 
     }
+  }
+
+  onCompleteTextArea(text: string){
+    return this.thirdFormGroup.get('thirdCtrl')?.value == '' ? text :
+          this.thirdFormGroup.get('thirdCtrl')?.value + "\n" + text;
   }
 
   onSendMessage(){
@@ -109,7 +114,7 @@ export class AppComponent implements OnInit {
 
     const messageData = {
       From: 'whatsapp:+14155238886',
-      Body: 'Usuario ' + `${sName}` + ' con código ' + `${sCode}` + ' ha generado la siguiente nota mediante NoVo: ' + `${sBody}`,
+      Body: '*Usuario:* ' + `${sName}` + ' \n*Código:* ' + `${sCode}` + ' \n*Descripción:* _Ha generado la siguiente nota mediante NoVo:_ \n' + `${sBody}`,
       To: 'whatsapp:+51983478763'
     };
 
