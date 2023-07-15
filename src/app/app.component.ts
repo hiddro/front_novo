@@ -69,6 +69,9 @@ export class AppComponent implements OnInit {
           this.sToken = true;
           this.sLoader = true;
           this.loadComponents();
+        }else if(texto.trim().toLowerCase() === "documento"){
+          window.open("https://docs.google.com/presentation/d/1G1XK3y6svYSvfxKzi1rhE2IzQpOMULyxYkEsgVGBCd0/edit?usp=sharing");
+          return;
         }
 
         let sData1 = this.firstFormGroup.get('firstCtrl')?.value;
