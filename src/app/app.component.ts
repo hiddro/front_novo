@@ -102,7 +102,7 @@ export class AppComponent implements OnInit {
   onSendMessage(){
     const twilioUrl = 'https://api.twilio.com/2010-04-01/Accounts/{ACCOUNT_SID}/Messages.json';
     const accountSid = 'AC956dcee1d224d58aed323b28a0bfeb9d';
-    const authToken = 'e0a3e639e580e30f7d60aaac3666abdf';
+    const authToken = 'aa47d2ad28240c30008120d0898fa666';
 
     const headers = new HttpHeaders()
       .set('Authorization', 'Basic ' + btoa(`${accountSid}:${authToken}`))
@@ -123,6 +123,7 @@ export class AppComponent implements OnInit {
     this.http.post(twilioUrl.replace('{ACCOUNT_SID}', accountSid), body, { headers })
       .subscribe({
         next: response => {
+          window.location.reload();
           console.log(response);
         },
         error: error => {
